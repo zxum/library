@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <title>Library</title>
+</head>
+
+<body>
+    <header>
+        <h1>My First Library</h1>
+    </header>
+
+    <section class="book-container">
+        <button class="box add-book-btn">
+          <i class="fas fa-plus-square fa-9x"></i>
+        </button>
+
+    </section>
+
+    <div class="add-book-form">
+        <div class="form-box">
+            <form class="form-content">
+                <i class="far fa-times-circle fa-2x exit-btn"></i>
+                <h3>Add a Book</h3>
+
+                <label for="title">Title</label></br>
+                <input type="text" name="title"></br>
+                <label for="author">Author</label></br>
+                <input type="text" name="author"></br>
+                <label for="pages">Pages</label></br>
+                <input type="text" name="pages"></br>
+                <label for="read">Read</label>
+                <input type="radio" name="read"></br>
+                <input type="submit" value="Add" class="submit-btn">
+            </form>
+        </div>
+    </div>
+</body>
+<script src="script.js"></script>
+<script src="https://kit.fontawesome.com/31b3a4ba31.js" crossorigin="anonymous"></script>
+
+</html>
