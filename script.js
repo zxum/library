@@ -118,9 +118,9 @@ let createBook = (ev) => {
     ev.preventDefault();
 
     // Create Book Object from form fields 
-    var addedBook = new Book(Date.now(), document.getElementById('titleField').value, document.getElementById('authorField').value, document.getElementById('pagesField').value, document.getElementById('titleField').checked)
-
-    // Add Book to Firebase 
+    var addedBook = new Book(Date.now(), document.getElementById('titleField').value, document.getElementById('authorField').value, document.getElementById('pagesField').value, document.getElementById('readstatusField').checked)
+    console.log(addedBook)
+        // Add Book to Firebase 
     var firebaseRef = firebase.database().ref("library/" + addedBook.id)
     firebaseRef.set(addedBook)
 
