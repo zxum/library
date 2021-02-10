@@ -30,10 +30,10 @@ section {
 
 .box {
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
-    width: 30%;
+    width: 300px;
     height: 300px;
     margin: 1rem;
-    padding: 2rem;
+    padding: 0.25rem 0.75rem 0.75rem 0.75rem;
     border-radius: 15px;
     box-sizing: border-box;
     background-color: #365063;
@@ -41,6 +41,13 @@ section {
     display: flex;
     flex-direction: column;
     align-items: center;
+    text-align: center;
+}
+
+@media (max-width: 900px) {
+    section {
+        max-width: 100%;
+    }
 }
 
 h3 {
@@ -80,7 +87,7 @@ div.form-box {
     margin: 15% auto;
     padding: 20px;
     width: 300px;
-    height: 300px;
+    height: auto;
     border-radius: 15px;
     color: #365063;
 }
@@ -105,8 +112,33 @@ input[type=submit] {
     height: 50px;
 }
 
+input[type=checkbox] {
+    line-height: 2rem;
+}
+
+#newbook label {
+    line-height: 2rem;
+}
+
 .form-content i {
     float: right;
     color: rgba(65, 179, 163, 1);
     cursor: pointer;
+}
+
+.delete-btn {
+    cursor: pointer;
+    align-self: flex-end;
+    margin: 0.65rem 0;
+    box-sizing: border-box;
+}
+
+.book-info button {
+    background-color: rgb(178, 254, 227);
+    color: #365063;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 400px;
+    justify-self: flex-end;
+    margin-top: 45px;
 }

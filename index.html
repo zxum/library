@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/31b3a4ba31.js" crossorigin="anonymous"></script>
+
     <link rel="stylesheet" href="style.css">
     <title>Library</title>
 </head>
@@ -15,7 +17,9 @@
         <h1>My First Library</h1>
     </header>
 
-    <section class="book-container">
+
+
+    <section class="book-container" id="books-section">
         <button class="box add-book-btn">
           <i class="fas fa-plus-square fa-9x"></i>
         </button>
@@ -24,24 +28,30 @@
 
     <div class="add-book-form">
         <div class="form-box">
-            <form class="form-content">
+            <form class="form-content" id="newbook">
                 <i class="far fa-times-circle fa-2x exit-btn"></i>
                 <h3>Add a Book</h3>
 
-                <label for="title">Title</label></br>
-                <input type="text" name="title"></br>
-                <label for="author">Author</label></br>
-                <input type="text" name="author"></br>
-                <label for="pages">Pages</label></br>
-                <input type="text" name="pages"></br>
-                <label for="read">Read</label>
-                <input type="radio" name="read"></br>
-                <input type="submit" value="Add" class="submit-btn">
+                <label for="titleField">Title</label></br>
+                <input type="text" name="titleField" id="titleField" required></br>
+                <label for="authorField">Author</label></br>
+                <input type="text" name="authorField" id="authorField" required></br>
+                <label for="pagesField">Pages</label></br>
+                <input type="text" name="pagesField" id="pagesField" required></br>
+                <label for="readstatus">Read</label>
+                <input type="checkbox" name="readstatusField" id="readstatusField"></br>
+                <input type="submit" value="Add" name="submit" class="submit-btn">
             </form>
         </div>
     </div>
+
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+
 </body>
+<script src="https://www.gstatic.com/firebasejs/8.2.6/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.6/firebase-database.js"></script>
+
 <script src="script.js"></script>
-<script src="https://kit.fontawesome.com/31b3a4ba31.js" crossorigin="anonymous"></script>
 
 </html>

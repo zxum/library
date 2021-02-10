@@ -1,86 +1,100 @@
-let myLibrary = [];
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+var firebaseConfig = {
+    apiKey: "AIzaSyCH5DPwNZrxjWTgy8TDgTaHAvvAeqBa1NE",
+    authDomain: "library-bf905.firebaseapp.com",
+    databaseURL: "https://library-bf905-default-rtdb.firebaseio.com",
+    projectId: "library-bf905",
+    storageBucket: "library-bf905.appspot.com",
+    messagingSenderId: "198379404749",
+    appId: "1:198379404749:web:275b366531d62406645884",
+    measurementId: "G-CE266N4MGM"
+};
 
-function Book(title, author, pages, read) {
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+
+
+// Create Book Object 
+function Book(id, title, author, pages, read) {
+    this.id = id;
     this.title = title;
     this.author = author;
     this.pages = pages;
     this.read = read;
 };
 
-function addBooktoLibrary(title, author, pages, read) {
-    let newBook = new Book(title, author, pages, read);
-    myLibrary.push(newBook);
+// Get existing books inside Firebase and display on webpage
+function getLibrary() {
+    firebase.database().ref("library/").once('value', function(snapshot) {
+        snapshot.forEach(function(childSnapshot) {
+            var existingBook = childSnapshot.val()
+            createBookBox(existingBook)
+        })
+    })
 }
 
-addBooktoLibrary("To Kill a Mockingbird", "Harper Lee", 281, false)
-addBooktoLibrary("Great Gatsby", "F. Scott Fitzgerald", 218, false)
-addBooktoLibrary("1984", "George Orwell", 328, false)
-addBooktoLibrary("Lord of the Flies", "William Golding", 224, false)
-addBooktoLibrary("Anna Karenina", "Leo Tolstoy", 864, false)
-addBooktoLibrary("Of Mice and Men", "John Steinbeck", 107, false)
+getLibrary()
 
 
-function createBookInfoBox() {
-
+// Display Book
+function createBookBox(book) {
     // Select main book container area 
     var bookContainer = document.querySelector(".book-container")
 
+    // Create box book-info element 
+    var bookInfoBox = document.createElement("article")
+    bookInfoBox.classList.add("box")
+    bookInfoBox.classList.add("book-info")
+    bookInfoBox.id = book.id
 
-    myLibrary.forEach(
-        function(book) {
+    // Add delete button to box 
+    var icon = document.createElement("i")
+    icon.classList.add("far", "fa-times-circle", "fa-2x", "delete-btn")
+    bookInfoBox.appendChild(icon)
 
-            // Create box book-info element 
-            var bookInfoBox = document.createElement("article")
-            bookInfoBox.classList.add("box")
-            bookInfoBox.classList.add("book-info")
+    // Add title into box book-info 
+    var h3 = document.createElement("h3")
+    h3.classList.add("small-header")
+    var title = document.createTextNode(book.title)
+    h3.appendChild(title)
+    bookInfoBox.appendChild(h3)
 
-            // Add title into box book-info 
-            var h3 = document.createElement("h3")
-            h3.classList.add("small-header")
-            var title = document.createTextNode(book.title)
-            h3.appendChild(title)
-            bookInfoBox.appendChild(h3)
 
-            // Add info to book info 
 
-            for (var prop in book) {
-                if (prop == "author" || prop == "pages") {
-                    var textarea = document.createElement("p")
-                    if (prop == "author") {
-                        var p = document.createTextNode("by " + book[prop])
-                    } else {
-                        var p = document.createTextNode(book[prop] + " pages")
-                    }
-                    textarea.appendChild(p)
-                    bookInfoBox.appendChild(textarea)
-                } else if (prop == "read") {
-                    var button = document.createElement("button")
-                    if (book[prop] == true) {
-                        var readbtn = document.createTextNode("Read")
-                    } else {
-                        var readbtn = document.createTextNode("Not Read")
-                    }
-                    button.appendChild(readbtn)
-                    bookInfoBox.appendChild(button)
-                }
+    // Add info to book info 
+
+    for (var prop in book) {
+        if (prop == "author" || prop == "pages") {
+            var textarea = document.createElement("p")
+            if (prop == "author") {
+                var p = document.createTextNode("by " + book[prop])
+            } else {
+                var p = document.createTextNode(book[prop] + " pages")
             }
-            bookContainer.appendChild(bookInfoBox)
-
-
+            textarea.appendChild(p)
+            bookInfoBox.appendChild(textarea)
+        } else if (prop == "read") {
+            var button = document.createElement("button")
+            if (book[prop] == true) {
+                var readbtn = document.createTextNode("Read")
+            } else {
+                var readbtn = document.createTextNode("Not Read")
+            }
+            button.appendChild(readbtn)
+            bookInfoBox.appendChild(button)
         }
-    )
+    }
+    bookContainer.appendChild(bookInfoBox)
 }
 
-createBookInfoBox()
 
+// Pop up form to add New Book, hidden when exited or clicked outside 
 var popUpForm = document.querySelector(".add-book-form")
-console.log(popUpForm)
 
 var exitBtn = document.querySelector(".exit-btn")
-console.log(exitBtn)
 
 var addBookBtn = document.querySelector(".add-book-btn")
-console.log(addBookBtn)
 
 addBookBtn.onclick = function() {
     popUpForm.style.display = "block";
@@ -90,5 +104,78 @@ exitBtn.onclick = function() {
     popUpForm.style.display = "none";
 }
 
-let form = document.querySelector(".form-content")
-form.addEventListener('submit', e)
+
+
+// Add a Book 
+var form = document.querySelector(".form-content")
+let submitInput = form.querySelector('input[type="submit"]');
+document.addEventListener('DOMContentLoaded', function() {
+    submitInput.addEventListener('click', createBook);
+}, false)
+
+let createBook = (ev) => {
+    // Block the form from being sent to server 
+    ev.preventDefault();
+
+    // Create Book Object from form fields 
+    var addedBook = new Book(Date.now(), document.getElementById('titleField').value, document.getElementById('authorField').value, document.getElementById('pagesField').value, document.getElementById('titleField').checked)
+
+    // Add Book to Firebase 
+    var firebaseRef = firebase.database().ref("library/" + addedBook.id)
+    firebaseRef.set(addedBook)
+
+    // Create div for Book and add to HTML 
+    createBookBox(addedBook)
+
+    // Close the Pop Up Form 
+    popUpForm.style.display = "none";
+
+    // Clear the inputs for next input 
+    document.forms[0].reset();
+}
+
+
+// Delete a Book 
+
+document.getElementById("books-section").addEventListener("click", function(e) {
+    if (e.target && e.target.classList.contains('delete-btn')) {
+        var bookid = e.target.parentNode.id
+        e.target.parentNode.remove();
+        firebase.database().ref('library/' + bookid).remove();
+    }
+})
+
+
+// Toggle Read Status 
+
+document.getElementById("books-section").addEventListener("click", function(e) {
+    if (e.target && e.target.type == "submit") {
+        var bookid = e.target.parentNode.id
+        console.log(e.target.parentNode.id)
+        var refPoint = firebase.database().ref('library/' + bookid)
+
+        // Change in Browser 
+        if (e.target.firstChild.nodeValue == "Read") {
+            e.target.firstChild.nodeValue = "Not Read"
+            refPoint.update({
+                read: false
+            })
+        } else {
+            e.target.firstChild.nodeValue = "Read"
+            refPoint.update({
+                read: true
+            })
+        }
+
+        // // Change in Firebase 
+        // var refPoint = firebase.database().ref('library/' + bookid)
+        // refPoint.on('value', function(snapshot) {
+        //     let newstatus = !snapshot.val().read
+        // })
+
+
+
+
+
+    }
+})
