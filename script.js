@@ -114,11 +114,20 @@ document.addEventListener('DOMContentLoaded', function() {
 }, false)
 
 let createBook = (ev) => {
-    // Block the form from being sent to server 
+    let titleField = document.getElementById('titleField').value
+    let authorField = document.getElementById('authorField').value
+    let pagesField = document.getElementById('pagesField').value
+        // Block the form from being sent to server 
     ev.preventDefault();
 
+    // Check if form is fully filled 
+    if (titleField == '' || titleField == null || authorField == '' || authorField == null || pagesField == '' || pagesField == null) {
+        alert('Missing inputs, please retry!')
+        return
+    }
+
     // Create Book Object from form fields 
-    var addedBook = new Book(Date.now(), document.getElementById('titleField').value, document.getElementById('authorField').value, document.getElementById('pagesField').value, document.getElementById('readstatusField').checked)
+    var addedBook = new Book(Date.now(), titleField, authorField, pagesField, document.getElementById('readstatusField').checked)
     console.log(addedBook)
         // Add Book to Firebase 
     var firebaseRef = firebase.database().ref("library/" + addedBook.id)
